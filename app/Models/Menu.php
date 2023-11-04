@@ -14,7 +14,8 @@ class Menu extends Model
         'description',
         'content',
         'active',
-        'thumb'
+        'thumb',
+        'logo'
     ];
 
     public function products()

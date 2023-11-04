@@ -62,7 +62,6 @@
             <h2 class="h6 px-4 py-3 bg-secondary text-center">Tổng cộng</h2>
             <div class="h3 font-weight-semibold text-center py-3">{{number_format($total,0,'','.')}} VNĐ</div>
             <hr>
-            <form method="post">
             <h3 class="h6 pt-4 font-weight-semibold">Thông tin khách hàng</h3>
             <p>Tên : <b>{{Auth::user()->name}}</b></p>
             <input type="hidden" name="name" value="{{Auth::user()->name}}">
@@ -70,23 +69,19 @@
             <p>Email : <b>{{Auth::user()->email}}</b></p> 
             <input type="hidden" name="email" value="{{Auth::user()->email}}">
             <p>Số điện thoại : <b>0{{Auth::user()->phone}}</b></p>
-            <input type="hidden" name="phone" value="{{Auth::user()->phone}}">
-            <p>Địa chỉ :  <input type="text" name="address" value="{{Auth::user()->address}}"></p>          
-            <h3 class="h6 pt-4 font-weight-semibold"><span class="badge badge-success mr-2">Note</span>Ghi chú</h3>
-            <textarea class="form-control mb-3" name="content" rows="5"></textarea>
+            <input type="hidden" name="phone" value="{{Auth::user()->phone}}">         
             <input type="hidden" name="total" value="{{$total}}">
-            <button type="submit" formaction="/projectlaravel/carts" class="btn btn-primary btn-block" style="background-color: green;border-color: green;margin-bottom: 20px;">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-credit-card mr-2">
-                    <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
-                    <line x1="1" y1="10" x2="23" y2="10"></line>
-                </svg>Thanh toán</button>
-            </form>
             <div class="pt-4">
                 <div class="accordion" id="cart-accordion">
+                <button class="btn btn-primary btn-block" style="background-color: #489620;border-color: #489620;margin-bottom: 20px;">
+                    <a href="/projectlaravel/carts/method" style="color: white;">
+                        Thanh toán
+                    </a>
+                </button>
+                @csrf
                 <button type="submit" formaction="/projectlaravel/update-cart" class="btn btn-primary btn-block" style="background-color: #F3C246;border-color: #F3C246;margin-bottom: 20px;">
                     Cập nhật đơn hàng
                 </button>
-                @csrf
                 <button class="btn btn-primary btn-block" style="background-color: red;border-color: red;">
                     <a href="/projectlaravel/carts/remove" style="color: white;">
                         Xóa đơn hàng

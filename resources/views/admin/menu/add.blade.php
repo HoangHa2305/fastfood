@@ -20,8 +20,12 @@
         </select>
     </div>
     <div class="form-group">
-        <label for="menu">Ảnh Sản Phẩm</label>
+        <label for="menu">Ảnh Danh mục</label>
         <input type="file" name="file_upload"  class="form-control" id="upload">
+    </div>
+    <div class="form-group">
+        <label for="menu">Logo thương hiệu</label>
+        <input type="file" name="logo"  class="form-control" id="upload">
     </div>
     <div class="form-group">
         <label>Mô tả</label>

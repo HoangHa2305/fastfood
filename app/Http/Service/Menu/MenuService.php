@@ -81,13 +81,22 @@ class MenuService
         return true;      
     }
     public function update($request, $menu){
+        // dd($request->all());
         if($request->has('file_upload')){
-            $file = $request->file_upload;
-            $text = $request->file_upload->extension();
-            $file_name = time().'-'.'menu.'.$text;
-            $file->move(public_path('uploads'),$file_name);
+            $file_thumb = $request->file_upload;
+            $text_thumb = $request->file_upload->extension();
+            $file_name_thumb = time().'-'.'menu.'.$text_thumb;
+            $file_thumb->move(public_path('uploads'),$file_name_thumb);
 
-            $request->merge(['thumb' => $file_name]);
+            $request->merge(['thumb' => $file_name_thumb]);
+        }
+        if($request->has('logo')){
+            $file_logo = $request->logo;
+            $text_logo = $request->logo->extension();
+            $file_name_logo = time().'-'.'menu-logo.'.$text_logo;
+            $file_logo->move(public_path('uploads'),$file_name_logo);
+
+            $request->merge(['logo' => $file_name_logo]);
         }
         // $menu->fil($request->input());      //fill quét toàn bộ thông tin request gửi lên
         // $menu->save();
@@ -99,7 +108,12 @@ class MenuService
         $menu->description = (string) $request->input('description');
         $menu->content = (string) $request->input('content');
         $menu->active = (string) $request->input('active');
-        $menu->thumb = (string) $request->input('thumb');
+        if($request->has('file_upload')){
+            $menu->thumb = (string) $request->input('thumb');
+        }
+        if($request->has('logo')){
+            $menu->logo = (string) $request->input('logo');
+        }
         $menu->save();
 
         Session::flash('success','Cập nhật thành công danh mục');

@@ -10,6 +10,7 @@ use App\Http\Service\Product\ProductService;
 use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Http\Service\User\UserService;
+use App\Mail\ContactMail;
 
 class HomeController extends Controller
 {
@@ -76,14 +77,11 @@ class HomeController extends Controller
 
     public function postcontact(Request $request)
     {
-        Mail::send('mail.contact',[
-            'name' => $request->name,
-            'content' => $request->content
-        ],function($mail) use($request){
-            $mail->to('hha.20it10@vku.udn.vn',$request->name);
-            $mail->from($request->email);
-            $mail->subject('Liên hệ từ khách hàng');
-        }); 
+        $name = $request->name;
+        $email = $request->email;
+        $content = $request->content;
+
+        Mail::to('hoangha2352@gmail.com')->send(new ContactMail($name,$email,$content));
 
         return redirect()->back();
     }

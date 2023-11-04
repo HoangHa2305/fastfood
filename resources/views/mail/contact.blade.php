@@ -1,5 +1,3 @@
-<h2>Chào, tên tôi là: {{$name}}, tôi có một thắc mắc như sau:</h2>
-<p>
-    {{$content}}
-</p><br>
-<p>Xin cảm ơn.</p>
+<p>Người gửi: {{ $name }}</p>
+<p>Email: {{ $email }}</p>
+<p>Nội dung: {{ $content }}</p>

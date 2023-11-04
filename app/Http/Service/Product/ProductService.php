@@ -3,6 +3,7 @@
 namespace App\Http\Service\Product;
 
 use App\Models\Product;
+use App\Models\Rate;
 
 class ProductService
 {
@@ -23,6 +24,11 @@ class ProductService
         ->with('menu')
         ->firstOrFail();
     }
+
+    public function rate($id){
+        return Rate::where('id_product',$id)->get();
+    }
+
     public function more($id)
     {
         return Product::select('id','name','description','price','price_sale','thumb')

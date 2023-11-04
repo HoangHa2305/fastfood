@@ -1,5 +1,5 @@
 <!-- ALL JS FILES -->
-<script src="{{url('public/site')}}/js/jquery-3.2.1.min.js"></script>
+	<script src="{{url('public/site')}}/js/jquery-3.2.1.min.js"></script>
 	<script src="{{url('public/site')}}/js/popper.min.js"></script>
 	<script src="{{url('public/site')}}/js/bootstrap.min.js"></script>
     <!-- ALL PLUGINS -->

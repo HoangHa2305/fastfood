@@ -18,6 +18,7 @@ use Monolog\Handler\RotatingFileHandler;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CommentController as ControllersCommentController;
 use App\Http\Controllers\OrderController;
+use App\Http\Controllers\ProductController as ControllersProductController;
 use App\Http\Controllers\RecruitController as ControllersRecruitController;
 use App\Http\Controllers\SearchController;
 
@@ -47,6 +48,13 @@ Route::get('/carts/remove',[CartController::class,'removeall']);
 Route::post('/carts',[CartController::class,'addCart']);
 Route::get('/tin-tuc-tuyen-dung.html',[ControllersRecruitController::class,'index'])->name('tin-tuc-tuyen-dung');
 
+//Thanh toán
+Route::get('/carts/method',[CartController::class,'getMethod']);
+Route::get('/payment/offline',[CartController::class,'offlinePayment']);
+Route::get('/payment/online',[CartController::class,'onlinePayment']);
+Route::post('/payment/momo',[CartController::class,'paymentMOMO']);
+Route::get('/success',[CartController::class,'paymentSuccess']);
+
 //Liên hệ
 Route::get('/lien-he',[HomeController::class,'contact'])->name('contact');
 Route::post('/lien-he',[HomeController::class,'postcontact']);
@@ -55,6 +63,7 @@ Route::post('/lien-he',[HomeController::class,'postcontact']);
 Route::get('/chi-tiet-tin-tuyen-dung/{id}-{slug}.html',[ControllersRecruitController::class,'show']);
 Route::post('/chi-tiet-tin-tuyen-dung/{id}-{slug}.html',[ControllersCommentController::class,'postcomment']);
 Route::get('/chi-tiet-tin-tuyen-dung/{id}',[CommentController::class,'delete']);
+Route::post('/product/rate',[ControllersProductController::class,'rate']);
 
 //Search
 Route::post('/danh-muc/tatca.html/name',[SearchController::class,'getSearchAjax'])->name('search');
@@ -113,7 +122,7 @@ Route::middleware(['auth'])->group(function(){
             Route::get('list',[UserController::class,'index']);
             Route::get('edit/{user}',[UserController::class,'show']);
             Route::post('edit/{user}',[UserController::class,'update']);
-            Route::get('delete/{id}',[UserController::class,'destroy']);
+            Route::get('destroy/{id}',[UserController::class,'destroy']);
         });
 
         //recruit

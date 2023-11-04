@@ -3,11 +3,13 @@
 namespace App\Http\Service;
 
 use App\Jobs\SendMail;
+use App\Mail\MailNotify;
 use App\Models\Cart;
 use App\Models\Customer;
 use App\Models\Product;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class CartService
@@ -92,6 +94,7 @@ class CartService
                 'name' => $request->input('name'),
                 'phone' => $request->input('phone'),
                 'address' => $request->input('address'),
+                'method' => $request->input('method'),
                 'email' => $request->input('email'),
                 'content' => $request->input('content'),
                 'total' => $request->input('total'),
@@ -103,8 +106,33 @@ class CartService
             DB::commit();
             Session::flash('success','Đặt hàng thành công');
 
-            #Queue
-            SendMail::dispatch($request->input('email'))->delay(now()->addSeconds(2));
+            $productId = array_keys($carts);
+            $products = Product::select('id','name','price')
+            ->where('active',1)
+            ->whereIn('id',$productId)
+            ->get();
+
+            $cart = [];
+            foreach($products as $product) {
+                $qty = $carts[$product->id];
+                $cart[] = [
+                    'name' => $product->name,
+                    'price' => $product->price,
+                    'qty' => $qty
+                ];
+            }
+            $data = [
+                'subject' => 'Đặt hàng thành công',
+                'cart' => $cart,
+                'total' => $request->input('total')
+            ];
+            #SendMail
+            try{
+                Mail::to($request->input('email'))->send(new MailNotify($data));
+                return response()->json(['Vui lòng kiểm tra mail đặt hàng']);
+            }catch(\Exception $th){
+                return $th->getMessage();
+            }
 
             Session::forget('carts');
         } catch(\Exception $err){
@@ -123,18 +151,17 @@ class CartService
             ->where('active',1)
             ->whereIn('id',$productId)
             ->get();
-        $data = [];
 
-        foreach($products as $key => $product){
-            $data[] = [
-                'customer_id' => $customer_id,
-                'product_id' => $product->id,
-                'qty' => $carts[$product->id],
-                'price' => $product->price_sale != 0 ? $product->price_sale : $product->price
-            ];
+        foreach($products as $product){
+            $cart = new Cart();
+            $cart->customer_id = $customer_id;
+            $cart->product_id = $product->id;
+            $cart->qty = $carts[$product->id];
+            $cart->price = $product->price_sale != 0 ? $product->price_sale : $product->price;
+            $cart->save();
         }
 
-        return Cart::insert($data);
+        return true;
     }
 
     public function getCustomer()

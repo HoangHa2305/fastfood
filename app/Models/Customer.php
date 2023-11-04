@@ -16,7 +16,8 @@ class Customer extends Model
         'email',
         'content',
         'total',
-        'id_user'
+        'id_user',
+        'method'
     ];
 
     public function carts()

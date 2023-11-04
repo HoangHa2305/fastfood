@@ -22,11 +22,18 @@
         </select>
     </div>
     <div class="form-group">
-        <label for="menu">Ảnh Sản Phẩm</label><br>
+        <label for="menu">Ảnh Danh mục</label><br>
         <a href="{{url('public/uploads')}}/{{$menu->thumb}}" target="_blank">
-        <img width="150px" src="{{url('public/uploads')}}/{{$menu->thumb}}">
+            <img width="150px" src="{{url('public/uploads')}}/{{$menu->thumb}}">
         </a>
         <input type="file" name="file_upload"  class="form-control" id="upload">
+    </div>
+    <div class="form-group">
+        <label for="menu">Logo thương hiệu</label>
+        <a href="{{url('public/uploads')}}/{{$menu->logo}}" target="_blank">
+            <img width="150px" src="{{url('public/uploads')}}/{{$menu->logo}}">
+        </a>
+        <input type="file" name="logo"  class="form-control" id="upload">
     </div>
     <div class="form-group">
         <label>Mô tả</label>
